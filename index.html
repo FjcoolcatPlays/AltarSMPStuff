@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AltarSMP</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Inter, sans-serif;
+}
+
+body{
+  background:#05070d;
+  color:white;
+  overflow-x:hidden;
+}
+
+/* ===== Animated gradient mesh background ===== */
+.bg{
+  position:fixed;
+  inset:0;
+  z-index:-3;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(168,85,247,0.35), transparent 35%),
+    radial-gradient(circle at 80% 30%, rgba(34,211,238,0.25), transparent 40%),
+    radial-gradient(circle at 50% 80%, rgba(255,0,128,0.18), transparent 45%);
+  filter: blur(70px);
+  animation: moveBg 12s ease-in-out infinite alternate;
+}
+
+@keyframes moveBg{
+  0%{transform:translateY(0px) scale(1);}
+  100%{transform:translateY(-30px) scale(1.1);}
+}
+
+/* subtle noise overlay */
+.noise{
+  position:fixed;
+  inset:0;
+  background:url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity:0.08;
+  z-index:-2;
+  pointer-events:none;
+}
+
+/* particles canvas */
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+}
+
+/* NAV */
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:22px 70px;
+}
+
+.logo{
+  font-weight:800;
+  letter-spacing:3px;
+  font-size:14px;
+  opacity:0.9;
+}
+
+.btn{
+  padding:10px 16px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.15);
+  background:rgba(255,255,255,0.06);
+  color:white;
+  cursor:pointer;
+  transition:0.25s;
+  backdrop-filter:blur(12px);
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+  border-color:rgba(255,255,255,0.4);
+}
+
+/* HERO */
+.hero{
+  height:85vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:0 20px;
+}
+
+.hero h1{
+  font-size:84px;
+  letter-spacing:-3px;
+  background:linear-gradient(90deg,#fff,#a855f7,#22d3ee,#ff3d8d);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation: glow 4s ease-in-out infinite alternate;
+}
+
+@keyframes glow{
+  0%{filter:drop-shadow(0 0 10px rgba(168,85,247,0.2));}
+  100%{filter:drop-shadow(0 0 25px rgba(34,211,238,0.25));}
+}
+
+.hero p{
+  max-width:650px;
+  margin-top:20px;
+  color:rgba(255,255,255,0.65);
+  font-size:18px;
+  line-height:1.6;
+}
+
+/* buttons */
+.actions{
+  display:flex;
+  gap:14px;
+  margin-top:28px;
+}
+
+.primary{
+  background:linear-gradient(90deg,#a855f7,#22d3ee);
+  border:none;
+}
+
+/* SECTION */
+.section{
+  padding:80px 70px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:18px;
+}
+
+/* GLASS CARD */
+.card{
+  padding:22px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  backdrop-filter:blur(14px);
+  transition:0.3s;
+  position:relative;
+  overflow:hidden;
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,0.08),transparent);
+  transform:translateX(-100%);
+}
+
+.card:hover::before{
+  animation: shine 1s ease;
+}
+
+@keyframes shine{
+  100%{transform:translateX(100%);}
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(255,255,255,0.25);
+}
+
+.card h3{
+  margin-bottom:10px;
+}
+
+.card p{
+  color:rgba(255,255,255,0.6);
+  font-size:14px;
+  line-height:1.5;
+}
+
+/* footer */
+footer{
+  text-align:center;
+  padding:40px;
+  color:rgba(255,255,255,0.4);
+}
+
+/* responsive */
+@media(max-width:700px){
+  .hero h1{font-size:44px;}
+  nav{padding:20px;}
+  .section{padding:50px 20px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+<div class="noise"></div>
+
+<canvas id="particles"></canvas>
+
+<nav>
+  <div class="logo">ALTAR SMP</div>
+  <button class="btn">Join Server</button>
+</nav>
+
+<section class="hero">
+  <h1>AltarSMP</h1>
+  <p>
+    A cinematic Minecraft survival experience built for kingdoms, wars, alliances,
+    and legends. Rise above everyone else in a living world.
+  </p>
+
+  <div class="actions">
+    <button class="btn primary">Play Now</button>
+    <button class="btn">Discord</button>
+  </div>
+</section>
+
+<section class="section">
+  <div class="card">
+    <h3>⚔️ Competitive PvP</h3>
+    <p>Skill-based combat designed for serious fighters and clans.</p>
+  </div>
+
+  <div class="card">
+    <h3>🌍 Living World</h3>
+    <p>Custom terrain, secrets, and dynamic exploration everywhere.</p>
+  </div>
+
+  <div class="card">
+    <h3>🏰 Nations System</h3>
+    <p>Build empires, control land, and wage strategic wars.</p>
+  </div>
+
+  <div class="card">
+    <h3>⚡ High Performance</h3>
+    <p>Optimized for smooth gameplay with stable TPS and low lag.</p>
+  </div>
+</section>
+
+<footer>
+  © 2026 AltarSMP — Built for legends
+</footer>
+
+<script>
+/* ===== Simple particle system ===== */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for(let i=0;i<70;i++){
+  particles.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    r:Math.random()*2,
+    dx:(Math.random()-0.5)*0.4,
+    dy:(Math.random()-0.5)*0.4
+  });
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  for(let p of particles){
+    p.x += p.dx;
+    p.y += p.dy;
+
+    if(p.x < 0 || p.x > canvas.width) p.dx *= -1;
+    if(p.y < 0 || p.y > canvas.height) p.dy *= -1;
+
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle="rgba(255,255,255,0.35)";
+    ctx.fill();
+  }
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("resize",()=>{
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
